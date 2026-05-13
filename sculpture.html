@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sculpture — Mark Strickland</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;700&family=Libre+Baskerville:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--black:#0a0a0a;--white:#f5f0eb;--cream:#e8e0d5;--gold:#c8a45e;--gold-bright:#dbb96e;--charcoal:#1a1a1a;--smoke:#2a2a2a;--muted:#8a8278;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);min-height:100vh;display:flex;flex-direction:column;}
+nav{padding:2rem 4rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(200,164,94,.08);}
+nav a{font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s;}
+nav a:hover{color:var(--gold);}
+nav .nav-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;}
+nav .nav-title span{color:var(--gold);}
+.coming-soon{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4rem 2rem;position:relative;}
+.coming-soon::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(200,164,94,.05) 0%,transparent 70%);}
+.cs-tag{font-size:.65rem;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);margin-bottom:2rem;}
+.cs-title{font-family:'Playfair Display',serif;font-size:clamp(3rem,8vw,6rem);font-weight:900;line-height:1;margin-bottom:1.5rem;}
+.cs-title span{-webkit-text-stroke:1.5px var(--white);color:transparent;}
+.cs-subtitle{font-family:'Libre Baskerville',serif;font-style:italic;font-size:1.1rem;color:var(--muted);max-width:500px;line-height:1.8;margin-bottom:3rem;}
+.cs-line{width:60px;height:1px;background:var(--gold);margin:0 auto 3rem;}
+.cs-text{font-family:'Libre Baskerville',serif;font-size:.95rem;color:var(--cream);line-height:1.9;max-width:480px;margin-bottom:3rem;}
+.cs-btn{display:inline-flex;align-items:center;gap:1rem;text-decoration:none;color:var(--gold);font-size:.8rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;border:1px solid var(--gold);padding:1rem 2.5rem;transition:all .3s;}
+.cs-btn:hover{background:var(--gold);color:var(--black);}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+@media(max-width:768px){nav{padding:1.5rem;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html">&larr; Mark Strickland</a>
+  <div class="nav-title"><span>Sculpture</span></div>
+  <a href="index.html#contact">Inquire</a>
+</nav>
+<div class="coming-soon">
+  <div class="cs-tag">Series VIII &bull; Private Collection</div>
+  <h1 class="cs-title">Sculp<span>ture</span></h1>
+  <div class="cs-line"></div>
+  <p class="cs-subtitle">Three-dimensional works spanning four decades of practice.</p>
+  <p class="cs-text">Mark Strickland's sculpture collection is currently being catalogued and will be available for private viewing shortly. For inquiries about specific works or to be notified when this collection launches, contact the studio directly.</p>
+  <a href="index.html#contact" class="cs-btn">Contact the Studio &rarr;</a>
+</div>
+</body>
+</html>
