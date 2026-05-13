@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drawings — Mark Strickland</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;700&family=Libre+Baskerville:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--black:#0a0a0a;--white:#f5f0eb;--cream:#e8e0d5;--gold:#c8a45e;--gold-bright:#dbb96e;--charcoal:#1a1a1a;--smoke:#2a2a2a;--muted:#8a8278;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;overflow-x:hidden;}
+body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);min-height:100vh;}
+#gate{position:fixed;inset:0;background:var(--black);z-index:1000;display:flex;align-items:center;justify-content:center;}
+#gate::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,rgba(200,164,94,.06) 0%,transparent 70%);}
+.gate-back{position:absolute;top:2rem;left:2rem;font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s;}
+.gate-back:hover{color:var(--gold);}
+.gate-inner{text-align:center;padding:3rem;max-width:480px;width:100%;position:relative;z-index:1;}
+.gate-tag{font-size:.65rem;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;}
+.gate-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3rem);font-weight:900;line-height:1.1;margin-bottom:.5rem;}
+.gate-subtitle{font-family:'Libre Baskerville',serif;font-style:italic;font-size:.95rem;color:var(--muted);margin-bottom:3rem;line-height:1.7;}
+.gate-input{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(200,164,94,.3);color:var(--white);font-family:'DM Sans',sans-serif;font-size:1.1rem;padding:1rem 0;outline:none;letter-spacing:.3em;text-align:center;text-transform:uppercase;transition:border-color .3s;margin-bottom:1.5rem;}
+.gate-input:focus{border-color:var(--gold);}
+.gate-input::placeholder{letter-spacing:.2em;color:rgba(200,164,94,.3);font-size:.85rem;}
+.gate-btn{width:100%;background:var(--gold);border:none;color:var(--black);padding:1rem 2rem;font-size:.8rem;letter-spacing:.25em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:700;transition:all .3s;margin-bottom:1rem;}
+.gate-btn:hover{background:var(--gold-bright);}
+.gate-error{font-size:.75rem;color:#c0392b;letter-spacing:.1em;height:1.2rem;}
+.gate-note{font-size:.7rem;color:var(--muted);letter-spacing:.1em;margin-top:2rem;font-style:italic;}
+#gallery{display:none;padding:0 0 8rem;}
+.gallery-nav{display:flex;align-items:center;justify-content:space-between;padding:2rem 4rem;border-bottom:1px solid rgba(200,164,94,.08);position:sticky;top:0;background:rgba(10,10,10,.95);backdrop-filter:blur(20px);z-index:100;}
+.gallery-nav a{font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s;}
+.gallery-nav a:hover{color:var(--gold);}
+.gallery-nav-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;}
+.gallery-nav-title span{color:var(--gold);}
+.gallery-header{text-align:center;padding:6rem 3rem 3rem;}
+.section-tag{font-size:.65rem;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;}
+.section-heading{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,5vw,4rem);font-weight:900;line-height:1.1;margin-bottom:1rem;}
+.gallery-desc{font-family:'Libre Baskerville',serif;font-style:italic;font-size:1rem;color:var(--muted);max-width:600px;margin:0 auto;line-height:1.8;}
+.masonry-grid{columns:3;column-gap:1.5rem;max-width:1400px;margin:3rem auto 0;padding:0 3rem;}
+.masonry-item{break-inside:avoid;margin-bottom:1.5rem;position:relative;overflow:hidden;cursor:pointer;background:var(--smoke);}
+.masonry-item img{width:100%;display:block;object-fit:cover;transition:transform .6s cubic-bezier(.25,.46,.45,.94);}
+.masonry-item:hover img{transform:scale(1.03);}
+.overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,10,.97) 0%,rgba(10,10,10,.4) 50%,transparent 100%);opacity:0;transition:opacity .4s;display:flex;flex-direction:column;justify-content:flex-end;padding:1.5rem;}
+.masonry-item:hover .overlay{opacity:1;}
+.overlay-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;margin-bottom:.2rem;}
+.overlay-year{font-size:.7rem;color:var(--gold);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.2rem;}
+.overlay-medium{font-size:.68rem;color:var(--muted);margin-bottom:.8rem;line-height:1.5;}
+.btn-inquire{display:inline-flex;align-items:center;gap:.5rem;background:var(--gold);border:none;color:var(--black);padding:.55rem 1.2rem;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:700;transition:all .3s;text-decoration:none;}
+.btn-inquire:hover{background:var(--gold-bright);}
+.gallery-footer{text-align:center;padding:5rem 3rem 2rem;border-top:1px solid rgba(200,164,94,.08);margin-top:4rem;}
+.gallery-footer p{font-family:'Libre Baskerville',serif;font-style:italic;color:var(--muted);margin-bottom:2rem;line-height:1.8;}
+.btn-contact{display:inline-flex;align-items:center;gap:1rem;background:transparent;border:1px solid var(--gold);color:var(--gold);padding:1rem 2.5rem;font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;font-family:'DM Sans',sans-serif;font-weight:700;transition:all .3s;}
+.btn-contact:hover{background:var(--gold);color:var(--black);}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+@media(max-width:768px){.masonry-grid{columns:1;padding:0 1.5rem;}.gallery-nav{padding:1.5rem;}.gallery-header{padding:4rem 1.5rem 2rem;}}
+</style>
+</head>
+<body>
+<div id="gate">
+  <a href="index.html" class="gate-back">&larr; Back to Site</a>
+  <div class="gate-inner">
+    <div class="gate-tag">Private Collection Access</div>
+    <h1 class="gate-title">Drawings</h1>
+    <p class="gate-subtitle">This collection is available to serious collectors and institutions by private access only.</p>
+    <input type="password" class="gate-input" id="pwInput" placeholder="Enter Access Code" autocomplete="off">
+    <button class="gate-btn" onclick="checkPassword()">Enter Collection</button>
+    <div class="gate-error" id="gateError"></div>
+    <p class="gate-note">Access code available upon request &mdash; <a href="index.html#contact" style="color:var(--gold);">contact the studio</a></p>
+  </div>
+</div>
+<div id="gallery">
+  <nav class="gallery-nav">
+    <a href="index.html">&larr; Mark Strickland</a>
+    <div class="gallery-nav-title"><span>Drawings</span></div>
+    <a href="index.html#contact">Inquire</a>
+  </nav>
+  <div class="gallery-header">
+    <div class="section-tag">Private Collection &bull; Series IV</div>
+    <h2 class="section-heading">Drawings</h2>
+    <p class="gallery-desc">The foundation of everything — line, gesture, and the immediacy of hand to surface. Works on paper that reveal the full range of Mark's touch.</p>
+  </div>
+  <div class="masonry-grid">
+    <div class="masonry-item"><img src="images/drawings/jean-pierre.jpg" alt="Jean Pierre" style="height:440px;"><div class="overlay"><div class="overlay-title">Jean Pierre</div><div class="overlay-year">1993</div><div class="overlay-medium">Oil on paper &bull; 27" &times; 21"</div><a href="index.html#contact" class="btn-inquire" onclick="sessionStorage.setItem('piece','Jean Pierre')">Inquire &rarr;</a></div></div>
+    <div class="masonry-item"><img src="images/drawings/crouching-man.jpg" alt="Crouching Man" style="height:400px;"><div class="overlay"><div class="overlay-title">Crouching Man</div><div class="overlay-year">2004</div><div class="overlay-medium">Oil on paper &bull; 45" &times; 33.5"</div><a href="index.html#contact" class="btn-inquire" onclick="sessionStorage.setItem('piece','Crouching Man')">Inquire &rarr;</a></div></div>
+    <div class="masonry-item"><img src="images/drawings/drawing-of-melissa.jpg" alt="Drawing of Melissa" style="height:480px;"><div class="overlay"><div class="overlay-title">Drawing of Melissa</div><div class="overlay-year">2008</div><div class="overlay-medium">Charcoal on paper &bull; 18" &times; 12"</div><a href="index.html#contact" class="btn-inquire" onclick="sessionStorage.setItem('piece','Drawing of Melissa')">Inquire &rarr;</a></div></div>
+    <div class="masonry-item"><img src="images/drawings/opposites.jpg" alt="Opposites" style="height:420px;"><div class="overlay"><div class="overlay-title">Opposites</div><div class="overlay-year">2007</div><div class="overlay-medium">Charcoal on paper &bull; 19.5" &times; 27.5"</div><a href="index.html#contact" class="btn-inquire" onclick="sessionStorage.setItem('piece','Opposites')">Inquire &rarr;</a></div></div>
+    <div class="masonry-item"><img src="images/drawings/inside-the-box.jpg" alt="Inside the Box" style="height:460px;"><div class="overlay"><div class="overlay-title">Inside the Box</div><div class="overlay-year">2002</div><div class="overlay-medium">Charcoal on paper &bull; 19.5" &times; 27.5"</div><a href="index.html#contact" class="btn-inquire" onclick="sessionStorage.setItem('piece','Inside the Box')">Inquire &rarr;</a></div></div>
+    <div class="masonry-item"><img src="images/drawings/contention.jpg" alt="Contention" style="height:440px;"><div class="overlay"><div class="overlay-title">Contention</div><div class="overlay-year">2007</div><div class="overlay-medium">Red charcoal on paper &bull; 19.5" &times; 27.5"</div><a href="index.html#contact" class="btn-inquire" onclick="sessionStorage.setItem('piece','Contention')">Inquire &rarr;</a></div></div>
+    <div class="masonry-item"><img src="images/drawings/disapproval.jpg" alt="Disapproval" style="height:400px;"><div class="overlay"><div class="overlay-title">Disapproval</div><div class="overlay-year">2007</div><div class="overlay-medium">Pen ink wash on paper &bull; 19.5" &times; 24.5"</div><a href="index.html#contact" class="btn-inquire" onclick="sessionStorage.setItem('piece','Disapproval')">Inquire &rarr;</a></div></div>
+    <div class="masonry-item"><img src="images/drawings/backs-turned.jpg" alt="Backs Turned" style="height:480px;"><div class="overlay"><div class="overlay-title">Backs Turned</div><div class="overlay-year">2007</div><div class="overlay-medium">Pen ink wash on paper &bull; 19.5" &times; 24.5"</div><a href="index.html#contact" class="btn-inquire" onclick="sessionStorage.setItem('piece','Backs Turned')">Inquire &rarr;</a></div></div>
+    <div class="masonry-item"><img src="images/drawings/homeless-woman-drawing.jpg" alt="Homeless Woman Drawing" style="height:420px;"><div class="overlay"><div class="overlay-title">Homeless Woman Drawing</div><div class="overlay-year">1999</div><div class="overlay-medium">Charcoal on paper &bull; 19" &times; 24"</div><a href="index.html#contact" class="btn-inquire" onclick="sessionStorage.setItem('piece','Homeless Woman Drawing')">Inquire &rarr;</a></div></div>
+    <div class="masonry-item"><img src="images/drawings/imploring.jpg" alt="Imploring" style="height:460px;"><div class="overlay"><div class="overlay-title">Imploring</div><div class="overlay-year">2009</div><div class="overlay-medium">Charcoal on paper &bull; 19.5" &times; 27.5"</div><a href="index.html#contact" class="btn-inquire" onclick="sessionStorage.setItem('piece','Imploring')">Inquire &rarr;</a></div></div>
+    <div class="masonry-item"><img src="images/drawings/the-guilty-falling.jpg" alt="The Guilty Falling" style="height:440px;"><div class="overlay"><div class="overlay-title">The Guilty Falling</div><div class="overlay-year">2010</div><div class="overlay-medium">Charcoal on paper &bull; 11.5" &times; 35"</div><a href="index.html#contact" class="btn-inquire" onclick="sessionStorage.setItem('piece','The Guilty Falling')">Inquire &rarr;</a></div></div>
+    <div class="masonry-item"><img src="images/drawings/longing.jpg" alt="Longing" style="height:400px;"><div class="overlay"><div class="overlay-title">Longing</div><div class="overlay-year">2007</div><div class="overlay-medium">Conte on paper &bull; 19.5" &times; 27.5"</div><a href="index.html#contact" class="btn-inquire" onclick="sessionStorage.setItem('piece','Longing')">Inquire &rarr;</a></div></div>
+    <div class="masonry-item"><img src="images/drawings/study-for-indomitable-spirit.jpg" alt="Study for Indomitable Spirit" style="height:480px;"><div class="overlay"><div class="overlay-title">Study for Indomitable Spirit</div><div class="overlay-year">2006</div><div class="overlay-medium">Charcoal on paper &bull; 24" &times; 8.5"</div><a href="index.html#contact" class="btn-inquire" onclick="sessionStorage.setItem('piece','Study for Indomitable Spirit')">Inquire &rarr;</a></div></div>
+    <div class="masonry-item"><img src="images/drawings/last-chance.jpg" alt="Last Chance" style="height:420px;"><div class="overlay"><div class="overlay-title">Last Chance</div><div class="overlay-year">2008</div><div class="overlay-medium">Charcoal on paper &bull; 43.5" &times; 10"</div><a href="index.html#contact" class="btn-inquire" onclick="sessionStorage.setItem('piece','Last Chance')">Inquire &rarr;</a></div></div>
+    <div class="masonry-item"><img src="images/drawings/maelstrom.jpg" alt="Maelstrom" style="height:460px;"><div class="overlay"><div class="overlay-title">Maelstrom</div><div class="overlay-year">2007</div><div class="overlay-medium">Charcoal on paper &bull; 27.5" &times; 19.5"</div><a href="index.html#contact" class="btn-inquire" onclick="sessionStorage.setItem('piece','Maelstrom')">Inquire &rarr;</a></div></div>
+    <div class="masonry-item"><img src="images/drawings/la-souffrance.jpg" alt="La souffrance" style="height:400px;"><div class="overlay"><div class="overlay-title">La souffrance</div><div class="overlay-year">2007</div><div class="overlay-medium">Charcoal on paper &bull; 30" &times; 22"</div><a href="index.html#contact" class="btn-inquire" onclick="sessionStorage.setItem('piece','La souffrance')">Inquire &rarr;</a></div></div>
+  </div>
+  <div class="gallery-footer">
+    <p>Interested in acquiring a work from this collection?<br>All inquiries are handled personally and with discretion.</p>
+    <a href="index.html#contact" class="btn-contact">Contact the Studio &rarr;</a>
+  </div>
+</div>
+<script>
+function checkPassword(){
+  const val=document.getElementById('pwInput').value.trim().toUpperCase();
+  if(val==='LACONDITION'){document.getElementById('gate').style.display='none';document.getElementById('gallery').style.display='block';sessionStorage.setItem('ms_auth','true');}
+  else{document.getElementById('gateError').textContent='Incorrect access code. Contact the studio for access.';document.getElementById('pwInput').value='';document.getElementById('pwInput').focus();}
+}
+document.getElementById('pwInput').addEventListener('keydown',e=>{if(e.key==='Enter')checkPassword();});
+if(sessionStorage.getItem('ms_auth')==='true'){document.getElementById('gate').style.display='none';document.getElementById('gallery').style.display='block';}
+</script>
+</body>
+</html>
