@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Human Form — Mark Strickland</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;700&family=Libre+Baskerville:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--black:#0a0a0a;--white:#f5f0eb;--cream:#e8e0d5;--gold:#c8a45e;--gold-bright:#dbb96e;--charcoal:#1a1a1a;--smoke:#2a2a2a;--muted:#8a8278;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;overflow-x:hidden;}
+body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);min-height:100vh;}
+#gate{position:fixed;inset:0;background:var(--black);z-index:1000;display:flex;align-items:center;justify-content:center;}
+#gate::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,rgba(200,164,94,.06) 0%,transparent 70%);}
+.gate-back{position:absolute;top:2rem;left:2rem;font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s;}
+.gate-back:hover{color:var(--gold);}
+.gate-inner{text-align:center;padding:3rem;max-width:480px;width:100%;position:relative;z-index:1;}
+.gate-tag{font-size:.65rem;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;}
+.gate-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3rem);font-weight:900;line-height:1.1;margin-bottom:.5rem;}
+.gate-subtitle{font-family:'Libre Baskerville',serif;font-style:italic;font-size:.95rem;color:var(--muted);margin-bottom:3rem;line-height:1.7;}
+.gate-input{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(200,164,94,.3);color:var(--white);font-family:'DM Sans',sans-serif;font-size:1.1rem;padding:1rem 0;outline:none;letter-spacing:.3em;text-align:center;text-transform:uppercase;transition:border-color .3s;margin-bottom:1.5rem;}
+.gate-input:focus{border-color:var(--gold);}
+.gate-input::placeholder{letter-spacing:.2em;color:rgba(200,164,94,.3);font-size:.85rem;}
+.gate-btn{width:100%;background:var(--gold);border:none;color:var(--black);padding:1rem 2rem;font-size:.8rem;letter-spacing:.25em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:700;transition:all .3s;margin-bottom:1rem;}
+.gate-btn:hover{background:var(--gold-bright);}
+.gate-error{font-size:.75rem;color:#c0392b;letter-spacing:.1em;height:1.2rem;}
+.gate-note{font-size:.7rem;color:var(--muted);letter-spacing:.1em;margin-top:2rem;font-style:italic;}
+#gallery{display:none;padding:0 0 8rem;}
+.gallery-nav{display:flex;align-items:center;justify-content:space-between;padding:2rem 4rem;border-bottom:1px solid rgba(200,164,94,.08);position:sticky;top:0;background:rgba(10,10,10,.95);backdrop-filter:blur(20px);z-index:100;}
+.gallery-nav a{font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s;}
+.gallery-nav a:hover{color:var(--gold);}
+.gallery-nav-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;}
+.gallery-nav-title span{color:var(--gold);}
+.gallery-header{text-align:center;padding:6rem 3rem 3rem;}
+.section-tag{font-size:.65rem;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;}
+.section-heading{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,5vw,4rem);font-weight:900;line-height:1.1;margin-bottom:1rem;}
+.gallery-desc{font-family:'Libre Baskerville',serif;font-style:italic;font-size:1rem;color:var(--muted);max-width:600px;margin:0 auto;line-height:1.8;}
+.masonry-grid{columns:3;column-gap:1.5rem;max-width:1400px;margin:3rem auto 0;padding:0 3rem;}
+.masonry-item{break-inside:avoid;margin-bottom:1.5rem;position:relative;overflow:hidden;cursor:pointer;background:var(--smoke);}
+.masonry-item img{width:100%;display:block;object-fit:cover;transition:transform .6s cubic-bezier(.25,.46,.45,.94);}
+.masonry-item:hover img{transform:scale(1.03);}
+.overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,10,.97) 0%,rgba(10,10,10,.4) 50%,transparent 100%);opacity:0;transition:opacity .4s;display:flex;flex-direction:column;justify-content:flex-end;padding:1.5rem;}
+.masonry-item:hover .overlay{opacity:1;}
+.overlay-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;margin-bottom:.2rem;}
+.overlay-year{font-size:.7rem;color:var(--gold);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.2rem;}
+.overlay-medium{font-size:.68rem;color:var(--muted);margin-bottom:.8rem;line-height:1.5;}
+.btn-inquire{display:inline-flex;align-items:center;gap:.5rem;background:var(--gold);border:none;color:var(--black);padding:.55rem 1.2rem;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:700;transition:all .3s;text-decoration:none;}
+.btn-inquire:hover{background:var(--gold-bright);}
+.gallery-footer{text-align:center;padding:5rem 3rem 2rem;border-top:1px solid rgba(200,164,94,.08);margin-top:4rem;}
+.gallery-footer p{font-family:'Libre Baskerville',serif;font-style:italic;color:var(--muted);margin-bottom:2rem;line-height:1.8;}
+.btn-contact{display:inline-flex;align-items:center;gap:1rem;background:transparent;border:1px solid var(--gold);color:var(--gold);padding:1rem 2.5rem;font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;font-family:'DM Sans',sans-serif;font-weight:700;transition:all .3s;}
+.btn-contact:hover{background:var(--gold);color:var(--black);}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+@media(max-width:768px){.masonry-grid{columns:1;padding:0 1.5rem;}.gallery-nav{padding:1.5rem;}.gallery-header{padding:4rem 1.5rem 2rem;}}
+</style>
+</head>
+<body>
+<div id="gate">
+  <a href="index.html" class="gate-back">&larr; Back to Site</a>
+  <div class="gate-inner">
+    <div class="gate-tag">Private Collection Access</div>
+    <h1 class="gate-title">The Human<br>Form</h1>
+    <p class="gate-subtitle">This collection is available to serious collectors and institutions by private access only.</p>
+    <input type="password" class="gate-input" id="pwInput" placeholder="Enter Access Code" autocomplete="off">
+    <button class="gate-btn" onclick="checkPassword()">Enter Collection</button>
+    <div class="gate-error" id="gateError"></div>
+    <p class="gate-note">Access code available upon request &mdash; <a href="index.html#contact" style="color:var(--gold);">contact the studio</a></p>
+  </div>
+</div>
+<div id="gallery">
+  <nav class="gallery-nav">
+    <a href="index.html">&larr; Mark Strickland</a>
+    <div class="gallery-nav-title">The Human <span>Form</span></div>
+    <a href="index.html#contact">Inquire</a>
+  </nav>
+  <div class="gallery-header">
+    <div class="section-tag">Private Collection &bull; Series V</div>
+    <h2 class="section-heading">The Human Form</h2>
+    <p class="gallery-desc">Studies in anatomy, spirit, and the body as vessel of lived experience. The human form as landscape, as testimony, as truth.</p>
+  </div>
+  <div class="masonry-grid">
+    <div class="masonry-item"><img src="images/human-form/sacred-touch.jpg" alt="Sacred Touch" style="height:460px;"><div class="overlay"><div class="overlay-title">Sacred Touch</div><div class="overlay-year">2007</div><div class="overlay-medium">Oil on canvas &bull; 72" &times; 30"</div><a href="index.html#contact" class="btn-inquire" onclick="sessionStorage.setItem('piece','Sacred Touch')">Inquire &rarr;</a></div></div>
+    <div class="masonry-item"><img src="images/human-form/hands-in-supplication.jpg" alt="Hands in Supplication" style="height:420px;"><div class="overlay"><div class="overlay-title">Hands in Supplication</div><div class="overlay-year">2007</div><div class="overlay-medium">Oil on canvas &bull; 72" &times; 60"</div><a href="index.html#contact" class="btn-inquire" onclick="sessionStorage.setItem('piece','Hands in Supplication')">Inquire &rarr;</a></div></div>
+    <div class="masonry-item"><img src="images/human-form/inconsolable.jpg" alt="Inconsolable" style="height:500px;"><div class="overlay"><div class="overlay-title">Inconsolable</div><div class="overlay-year">2010</div><div class="overlay-medium">Oil on canvas &bull; 48" &times; 30"</div><a href="index.html#contact" class="btn-inquire" onclick="sessionStorage.setItem('piece','Inconsolable')">Inquire &rarr;</a></div></div>
+    <div class="masonry-item"><img src="images/human-form/rose-for-robert.jpg" alt="Rose for Robert" style="height:440px;"><div class="overlay"><div class="overlay-title">Rose for Robert</div><div class="overlay-year">2010</div><div class="overlay-medium">Oil on canvas &bull; 20" &times; 16"</div><a href="index.html#contact" class="btn-inquire" onclick="sessionStorage.setItem('piece','Rose for Robert')">Inquire &rarr;</a></div></div>
+    <div class="masonry-item"><img src="images/human-form/woman-in-a-bath.jpg" alt="Woman in a Bath" style="height:480px;"><div class="overlay"><div class="overlay-title">Woman in a Bath</div><div class="overlay-year">2003</div><div class="overlay-medium">Oil on canvas &bull; 48" &times; 30"</div><a href="index.html#contact" class="btn-inquire" onclick="sessionStorage.setItem('piece','Woman in a Bath')">Inquire &rarr;</a></div></div>
+    <div class="masonry-item"><img src="images/human-form/man-struggling-with-himself.jpg" alt="Man Struggling With Himself" style="height:420px;"><div class="overlay"><div class="overlay-title">Man Struggling With Himself</div><div class="overlay-year">2004</div><div class="overlay-medium">Oil on canvas &bull; 60" &times; 48"</div><a href="index.html#contact" class="btn-inquire" onclick="sessionStorage.setItem('piece','Man Struggling With Himself')">Inquire &rarr;</a></div></div>
+    <div class="masonry-item"><img src="images/human-form/falling-from-indras-net.jpg" alt="Falling from Indra's Net" style="height:460px;"><div class="overlay"><div class="overlay-title">Falling from Indra's Net</div><div class="overlay-year">2005</div><div class="overlay-medium">Oil on canvas &bull; 60" &times; 48"</div><a href="index.html#contact" class="btn-inquire" onclick="sessionStorage.setItem('piece','Falling from Indras Net')">Inquire &rarr;</a></div></div>
+    <div class="masonry-item"><img src="images/human-form/when-love-has-gone.jpg" alt="When Love has Gone" style="height:400px;"><div class="overlay"><div class="overlay-title">When Love has Gone</div><div class="overlay-year">2007</div><div class="overlay-medium">Oil on canvas &bull; 48" &times; 36"</div><a href="index.html#contact" class="btn-inquire" onclick="sessionStorage.setItem('piece','When Love has Gone')">Inquire &rarr;</a></div></div>
+    <div class="masonry-item"><img src="images/human-form/kosovo-mother.jpg" alt="Kosovo Mother" style="height:500px;"><div class="overlay"><div class="overlay-title">Kosovo Mother</div><div class="overlay-year">2005</div><div class="overlay-medium">Oil on paper and wood &bull; 60" &times; 84"</div><a href="index.html#contact" class="btn-inquire" onclick="sessionStorage.setItem('piece','Kosovo Mother')">Inquire &rarr;</a></div></div>
+    <div class="masonry-item"><img src="images/human-form/latina.jpg" alt="Latina" style="height:440px;"><div class="overlay"><div class="overlay-title">Latina</div><div class="overlay-year">2004</div><div class="overlay-medium">Oil on canvas &bull; 48" &times; 36"</div><a href="index.html#contact" class="btn-inquire" onclick="sessionStorage.setItem('piece','Latina')">Inquire &rarr;</a></div></div>
+    <div class="masonry-item"><img src="images/human-form/faithful-friend.jpg" alt="Faithful Friend" style="height:460px;"><div class="overlay"><div class="overlay-title">Faithful Friend</div><div class="overlay-year">2004</div><div class="overlay-medium">Oil on paper &bull; 40" &times; 30"</div><a href="index.html#contact" class="btn-inquire" onclick="sessionStorage.setItem('piece','Faithful Friend')">Inquire &rarr;</a></div></div>
+    <div class="masonry-item"><img src="images/human-form/crying-for-her-children.jpg" alt="Crying for Her Children" style="height:420px;"><div class="overlay"><div class="overlay-title">Crying for Her Children</div><div class="overlay-year">2003</div><div class="overlay-medium">Oil on canvas &bull; 72" &times; 40"</div><a href="index.html#contact" class="btn-inquire" onclick="sessionStorage.setItem('piece','Crying for Her Children')">Inquire &rarr;</a></div></div>
+    <div class="masonry-item"><img src="images/human-form/passing-through-bardo.jpg" alt="Passing Through Bardo" style="height:480px;"><div class="overlay"><div class="overlay-title">Passing Through Bardo</div><div class="overlay-year">1988</div><div class="overlay-medium">Oil on canvas &bull; 72" &times; 60"</div><a href="index.html#contact" class="btn-inquire" onclick="sessionStorage.setItem('piece','Passing Through Bardo')">Inquire &rarr;</a></div></div>
+    <div class="masonry-item"><img src="images/human-form/flying-fish.jpg" alt="Flying Fish" style="height:440px;"><div class="overlay"><div class="overlay-title">Flying Fish (Improvizzasione Fibonacci)</div><div class="overlay-year">2011</div><div class="overlay-medium">Oil on wood &bull; 78" &times; 108"</div><a href="index.html#contact" class="btn-inquire" onclick="sessionStorage.setItem('piece','Flying Fish')">Inquire &rarr;</a></div></div>
+    <div class="masonry-item"><img src="images/human-form/evolution-of-man.jpg" alt="Evolution of Man" style="height:400px;"><div class="overlay"><div class="overlay-title">Evolution of Man</div><div class="overlay-year"></div><div class="overlay-medium">Oil on paper</div><a href="index.html#contact" class="btn-inquire" onclick="sessionStorage.setItem('piece','Evolution of Man')">Inquire &rarr;</a></div></div>
+    <div class="masonry-item"><img src="images/human-form/shadow-dancers.jpg" alt="Shadow Dancers" style="height:460px;"><div class="overlay"><div class="overlay-title">Shadow Dancers</div><div class="overlay-year">2010</div><div class="overlay-medium">Oil on canvas</div><a href="index.html#contact" class="btn-inquire" onclick="sessionStorage.setItem('piece','Shadow Dancers')">Inquire &rarr;</a></div></div>
+    <div class="masonry-item"><img src="images/human-form/japanese-poem.jpg" alt="Japanese Poem" style="height:420px;"><div class="overlay"><div class="overlay-title">Japanese Poem</div><div class="overlay-year">1985</div><div class="overlay-medium">Oil on paper &bull; 12" &times; 48"</div><a href="index.html#contact" class="btn-inquire" onclick="sessionStorage.setItem('piece','Japanese Poem')">Inquire &rarr;</a></div></div>
+  </div>
+  <div class="gallery-footer">
+    <p>Interested in acquiring a work from this collection?<br>All inquiries are handled personally and with discretion.</p>
+    <a href="index.html#contact" class="btn-contact">Contact the Studio &rarr;</a>
+  </div>
+</div>
+<script>
+function checkPassword(){
+  const val=document.getElementById('pwInput').value.trim().toUpperCase();
+  if(val==='LACONDITION'){document.getElementById('gate').style.display='none';document.getElementById('gallery').style.display='block';sessionStorage.setItem('ms_auth','true');}
+  else{document.getElementById('gateError').textContent='Incorrect access code. Contact the studio for access.';document.getElementById('pwInput').value='';document.getElementById('pwInput').focus();}
+}
+document.getElementById('pwInput').addEventListener('keydown',e=>{if(e.key==='Enter')checkPassword();});
+if(sessionStorage.getItem('ms_auth')==='true'){document.getElementById('gate').style.display='none';document.getElementById('gallery').style.display='block';}
+</script>
+</body>
+</html>
